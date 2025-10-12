@@ -18,7 +18,7 @@ iris = load_iris()      # Loads Iris data and stores in variable (Numerical 2D A
 x = iris.data           # Extracts Feature data (Sepal Length, Sepal width, ...) (Rows) for all 3 flowers, [150,4] into x
 y = iris.target         # Extracts target labels into y, What the Model is trying/learning to predict 
 print('x = ',x[148])    # measurements of flowers[0-149] (Sepal Length, Sepal width, ...) (cm),  for sampele 148
-print('y = ',y[148])     # 1D array (150,)  0-49 ~ flower1, 50-99 ~ flower2, 100-149 ~ flower3             
+print('y = ',y[148])    # 1D array (150,)  0-49 ~ flower1, 50-99 ~ flower2, 100-149 ~ flower3             
                         # .data always returns a 2D array [number of samples, number of features] (inputs)
                         # .target contains the labels (outputs) corresponding to each row in data
 
@@ -40,3 +40,4 @@ y_pred = rf.predict(x_test) # predicts based on x_test, y_pred = 1D array with 4
 accuracy = accuracy_score(y_test, y_pred) # checks accuracy based on test and prediction outputs
 print(f'Accuracy: {accuracy}')
 # x.describe()
+
