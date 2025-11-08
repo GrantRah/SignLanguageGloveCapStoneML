@@ -12,6 +12,11 @@ from sklearn.ensemble import RandomForestClassifier  # Imports the RandomForest 
 from sklearn.datasets import load_iris               # Imports sklearn's sample dataset (the Iris flower dataset)
 from sklearn.model_selection import train_test_split # Imports a function to split the data into a training set (to train the model) and a test set (to test the model)
 from sklearn.metrics import accuracy_score           # Imports a function to measure the accuracy
+# New stuff below is good?  
+from sklearn.preprocessing import StandardScaler     # Imports a function to standardize the data
+from sklearn.preprocessing import MinMaxScaler       # Imports a function to normalize the data
+from sklearn.model_selection import GridSearchCV     # Imports a function to perform hyperparameter tuning using grid search with cross-validation
+from sklearn.model_selection import cross_val_score  # Imports a function to evaluate a model using cross-validation
 
 # 150 flowers consisting of three types
 
