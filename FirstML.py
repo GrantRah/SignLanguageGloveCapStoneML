@@ -28,14 +28,15 @@ print('y = ',y[148])    # 1D array (150,)  0-49 ~ flower1, 50-99 ~ flower2, 100-
                         # .data always returns a 2D array [number of samples, number of features] (inputs)
                         # .target contains the labels (outputs) corresponding to each row in data
 scaler = StandardScaler()  # initialize standard scaler
-x = scaler.fit_transform(x) # standardize the x data (Uses fit transform to scale the training data)
+ 
 
 # train_test_split - splits the data into a training and testing set
 # Takes in the input (x) and output (y) data. test_size=0.3 → 30% for testing, so 70% is for training
 # random_state=42 → it will always pick the same 45 (0.3 * 150) test samples.
 # The number is just a specific shuffle seed, so the train/test sets are always the same
 x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.3, random_state = 42) 
-
+x_train_new= scaler.fit_transform(x_train) # standardize the x data (Uses fit transform to scale the training data)
+x_test_new= scaler.transform(x_test) # standardize the x data (Uses transform to scale the test data)
 # n_estimators - number of trees in the forest, more trees mean longer to train but higher accuracy
 # Bootstrapping: Each tree is trained on a random subset of the data
 # Feature selection: Each tree splits using a random subset of features at each node
@@ -44,7 +45,7 @@ rf = RandomForestClassifier(n_estimators = 100, random_state=42) # initialize ra
 
 rf.fit(x_train, y_train) # .fit trains our ML Model
 
-y_pred = rf.predict(x_test) # predicts based on x_test, y_pred = 1D array with 45 predictions [1, 2, 1, 0, ....]
+y_pred = rf.predict(x_test_new) # predicts based on x_test, y_pred = 1D array with 45 predictions [1, 2, 1, 0, ....]
 accuracy = accuracy_score(y_test, y_pred) # checks accuracy based on test and prediction outputs
 print(f'Accuracy: {accuracy}')
 # x.describe()
