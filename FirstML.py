@@ -3,6 +3,7 @@ import numpy as np                  # Math Operations/Arrays
 import matplotlib.pyplot as plt     # plotting basics
 import seaborn as sns               # Prettiter Statistical Plots
 import sklearn                      # Machine Learing Modles/Tools
+import joblib                       # Model Saving/Loading
 print("all good")
 
 
