@@ -43,7 +43,7 @@ x_test_new= scaler.transform(x_test) # standardize the x data (Uses transform to
 # Setting random_state=42 ensures you get the same forest every time you run the code
 rf = RandomForestClassifier(n_estimators = 100, random_state=42) # initialize random forest model
 
-rf.fit(x_train, y_train) # .fit trains our ML Model
+rf.fit(x_train_new, y_train) # .fit trains our ML Model
 
 y_pred = rf.predict(x_test_new) # predicts based on x_test, y_pred = 1D array with 45 predictions [1, 2, 1, 0, ....]
 accuracy = accuracy_score(y_test, y_pred) # checks accuracy based on test and prediction outputs
