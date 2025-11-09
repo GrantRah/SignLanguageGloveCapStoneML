@@ -123,3 +123,17 @@ y_pred = best_rf.predict(x_test)                      # predicts based on x_test
 accuracy = accuracy_score(y_test, y_pred)             # checks accuracy based on test outputs and prediction outputs
 print(f"Test Accuracy with GridSearchCV: {accuracy}") # prints accuracy as a float
 """
+
+
+"""
+# joblib is a python libaery, we can use it to save/load our trained ML models and not retrain every time and can use it in other projects/files
+import joblib    
+joblib.dump(rf, 'random_forest_model.pkl')              # saves trained model (RF) to a file named 'random_forest_model.pkl', job lib uses pickle format (.pkl)
+
+loaded_model = joblib.load('random_forest_model.pkl')   # loads the model from the file
+y_loaded_pred = loaded_model.predict(x_test)            # uses the loaded model to make predictions on x_test, testing our loaded model and geting output predictions
+loaded_accuracy = accuracy_score(y_test, y_loaded_pred) # checks accuracy based on test outputs and loaded model predictions
+print(f'Loaded Model Accuracy: {loaded_accuracy}')      # prints accuracy of the loaded model             
+"""
+
+
