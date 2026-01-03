@@ -28,7 +28,7 @@ print('y = ',y[148])    # 1D array (150,)  0-49 ~ flower1, 50-99 ~ flower2, 100-
                         # .data always returns a 2D array [number of samples, number of features] (inputs)
                         # .target contains the labels (outputs) corresponding to each row in data
 scaler = StandardScaler()  # initialize standard scaler
- 
+  
 
 # train_test_split - splits the data into a training and testing set
 # Takes in the input (x) and output (y) data. test_size=0.3 → 30% for testing, so 70% is for training
