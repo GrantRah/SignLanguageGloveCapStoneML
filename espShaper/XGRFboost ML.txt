@@ -1,0 +1,1 @@
+This is ML for predicting shapes, circle triangle square. drawn on the xy plane with an accelrameter. the data cvs files and models trained are included. 
