@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 import warnings
 
-from sklearn.model_selection import RandomizedSearchCV, cross_val_score, StratifiedKFold
+from sklearn.model_selection import train_test_split, RandomizedSearchCV, cross_val_score, StratifiedKFold
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
 from sklearn.calibration import CalibratedClassifierCV
@@ -80,9 +80,7 @@ for file in csv_files:
         ratio = avg / (np.sum(avg) + 1e-8)
 
         features = np.concatenate([avg, std, ratio])
-
-        # ✅ FIX: store file name for proper splitting
-        rows.append(list(features) + [label, file])
+        rows.append(list(features) + [label])
 
 feature_columns = (
     [f"mean_Flex{i}" for i in range(1,6)] +
@@ -90,10 +88,7 @@ feature_columns = (
     [f"ratio_Flex{i}" for i in range(1,6)]
 )
 
-processed_df = pd.DataFrame(
-    rows,
-    columns=feature_columns + ['Sign', 'File']
-)
+processed_df = pd.DataFrame(rows, columns=feature_columns + ['Sign'])
 
 print("\nAfter windowing:", processed_df.shape)
 
@@ -107,21 +102,14 @@ label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
 
 # =========================
-# FILE-BASED TRAIN / TEST SPLIT (IMPORTANT FIX)
+# TRAIN / TEST SPLIT
 # =========================
-all_files = processed_df['File'].unique()
-
-train_files = [f for f in all_files if "_1" in f]
-test_files  = [f for f in all_files if "_2" in f]
-
-train_df = processed_df[processed_df['File'].isin(train_files)]
-test_df  = processed_df[processed_df['File'].isin(test_files)]
-
-X_train = train_df[feature_columns].values
-y_train = label_encoder.fit_transform(train_df['Sign'].values)
-
-X_test = test_df[feature_columns].values
-y_test = label_encoder.transform(test_df['Sign'].values)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y_encoded,
+    test_size=0.2,
+    random_state=42,
+    stratify=y_encoded
+)
 
 # =========================
 # SCALE FEATURES
@@ -131,7 +119,7 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # =========================
-# XGBOOST BASE MODEL
+# XGBOOST BASE MODEL (quiet)
 # =========================
 xgb = XGBClassifier(
     objective='multi:softprob',
@@ -174,7 +162,7 @@ print(search.best_params_)
 best_model = search.best_estimator_
 
 # =========================
-# CROSS VALIDATION SCORE
+# CROSS VALIDATION SCORE (FINAL CHECK)
 # =========================
 cv_scores = cross_val_score(
     best_model,
